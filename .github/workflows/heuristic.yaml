@@ -16,7 +16,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install Dependencies
         run: |
-          sudo apt install -y base-files dash libc-bin libc6:amd64 libpython3.13-stdlib:amd64 locales media-types ncurses-base openssl python3-minimal python3-zope.interface python3.10-minimal python3.13 tzdata
+          sudo apt install -y base-files
           uv pip install uv==0.8.0
       - run: |
           uv run --locked tox run -e py3.13
@@ -58,7 +58,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install Dependencies
         run: |
-          sudo apt install -y base-files ca-certificates libc-bin libc6:amd64 libncursesw6:amd64 libpython3.13-stdlib:amd64 locales ncurses-base openssl python3-minimal python3.13 tzdata
+          sudo apt install -y base-files
           uv pip install uv==0.8.0
       - run: |
           uv run --locked tox run -e typing
