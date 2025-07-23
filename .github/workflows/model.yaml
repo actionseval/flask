@@ -1,0 +1,42 @@
+name: model
+
+on: workflow_dispatch
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install asgiref blinker click cryptography gha-update greenlet itsdangerous jinja2 markupsafe mypy pallets-sphinx-themes pre-commit pre-commit-uv pyright pytest python-dotenv ruff sphinx sphinx-autobuild sphinx-tabs sphinxcontrib-log-cabinet tox tox-uv types-contextvars types-dataclasses werkzeug
+
+      - name: Run tests
+        run: |
+          uv run --locked tox run -e py3.13
+
+  typing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install asgiref blinker click cryptography gha-update greenlet itsdangerous jinja2 markupsafe mypy pallets-sphinx-themes pre-commit pre-commit-uv pyright pytest python-dotenv ruff sphinx sphinx-autobuild sphinx-tabs sphinxcontrib-log-cabinet tox tox-uv types-contextvars types-dataclasses werkzeug
+
+      - name: Run typing
+        run: |
+          uv run --locked tox run -e typing

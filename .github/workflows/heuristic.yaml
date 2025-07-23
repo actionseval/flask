@@ -1,0 +1,88 @@
+name: heuristic
+on: workflow_dispatch
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.13'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          apt install -y base-files dash libc-bin libc6:amd64 libpython3.13-stdlib:amd64 locales media-types ncurses-base openssl python3-minimal python3-zope.interface python3.10-minimal python3.13 tzdata
+          uv pip install uv==0.8.0
+      - run: |
+          uv run --locked tox run -e py3.13
+    env:
+      ACCEPT_EULA: Y
+      BOOTSTRAP_HASKELL_NONINTERACTIVE: '1'
+      COLUMNS: '254'
+      DEBIAN_FRONTEND: noninteractive
+      DOTNET_MULTILEVEL_LOOKUP: '0'
+      DOTNET_NOLOGO: '1'
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
+      HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS: '3650'
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOSTNAME: pop-os
+      ImageOS: ubuntu22
+      ImageVersion: 20250622.1.0
+      LC_CTYPE: C.UTF-8
+      LINES: '62'
+      POWERSHELL_DISTRIBUTION_CHANNEL: GitHub-Actions-ubuntu22
+      PYTHONHASHSEED: '1530152486'
+      PYTHONIOENCODING: utf-8
+      SHLVL: '1'
+      TERM: xterm
+      UV_RUN_RECURSION_DEPTH: '1'
+      _PYI_LINUX_PROCESS_NAME: sawra
+      _PYI_PARENT_PROCESS_LEVEL: '1'
+  typing:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.13'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          apt install -y base-files ca-certificates libc-bin libc6:amd64 libncursesw6:amd64 libpython3.13-stdlib:amd64 locales ncurses-base openssl python3-minimal python3.13 tzdata
+          uv pip install uv==0.8.0
+      - run: |
+          uv run --locked tox run -e typing
+    env:
+      ACCEPT_EULA: Y
+      BOOTSTRAP_HASKELL_NONINTERACTIVE: '1'
+      COLUMNS: '254'
+      DEBIAN_FRONTEND: noninteractive
+      DOTNET_MULTILEVEL_LOOKUP: '0'
+      DOTNET_NOLOGO: '1'
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
+      HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS: '3650'
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOSTNAME: pop-os
+      ImageOS: ubuntu22
+      ImageVersion: 20250622.1.0
+      LC_CTYPE: C.UTF-8
+      LINES: '62'
+      POWERSHELL_DISTRIBUTION_CHANNEL: GitHub-Actions-ubuntu22
+      PYTHONHASHSEED: '2883002484'
+      PYTHONIOENCODING: utf-8
+      SHLVL: '1'
+      TERM: xterm
+      TOX_ENV_NAME: typing
+      UV_RUN_RECURSION_DEPTH: '1'
+      _PYI_LINUX_PROCESS_NAME: sawra
+      _PYI_PARENT_PROCESS_LEVEL: '1'

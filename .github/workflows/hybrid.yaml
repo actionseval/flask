@@ -1,0 +1,45 @@
+name: hybrid
+
+on: workflow_dispatch
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.13'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          pip install uv==0.8.0
+      - run: |
+          uv run --locked tox run -e py3.13
+    env:
+      UV_RUN_RECURSION_DEPTH: '1'
+
+  typing:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.13'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          uv pip install uv==0.8.0
+          pip install asgiref blinker click cryptography gha-update greenlet itsdangerous jinja2 markupsafe mypy pallets-sphinx-themes pre-commit pre-commit-uv pyright pytest python-dotenv ruff sphinx sphinx-autobuild sphinx-tabs sphinxcontrib-log-cabinet tox tox-uv types-contextvars types-dataclasses werkzeug
+      - run: |
+          uv run --locked tox run -e typing
